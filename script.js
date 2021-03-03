@@ -13,7 +13,7 @@ buttonTwo.addEventListener("click", buildMutation)
 function buildQuery() {
 	const value = input.value
 	const valueTwo = inputTwo.value
-  const query = build.query('getUsers')({ value, valueTwo })('status', 'message', 'id', 'names', 'users')
+  const query = build.query('getUsers')({ value, valueTwo, token: 'aehaueha' })('status', 'message', 'id', 'names', 'users')
   console.log(query)
 	output.innerText = query
 }
@@ -23,7 +23,7 @@ function buildMutation() {
 		input.value,
 		inputTwo.value,
 	]
-  const mutation = build.mutation('editUsers')({ value, 'userId': input.value })('status', 'message', 'id', 'names', 'users')
+  const mutation = build.mutation('aaa')({ value, 'userId': input.value, token: 'aehaueha' })('status', 'message', 'id', 'names', 'users')
   console.log(mutation)
 	output.innerText = mutation
 }
