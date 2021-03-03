@@ -22,8 +22,9 @@ function buildMutation() {
 	const value = [
 		input.value,
 		inputTwo.value,
+		false
 	]
-  const mutation = build.mutation('aaa')({ value, 'userId': input.value, token: 'aehaueha' })('status', 'message', 'id', 'names', 'users')
+  const mutation = build.mutation('aaa')({ value, 'userId': input.value, token: 'aehaueha', teste: false })('status', 'message', 'id', 'names', 'users')
   console.log(mutation)
 	output.innerText = mutation
 }

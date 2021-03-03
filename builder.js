@@ -84,22 +84,13 @@ export class Builder {
     let fields = ''
 
     return fields = keys.reduce((acc, elm) => {
-      if (mutationArgs[elm] === null ||
-        mutationArgs[elm] === undefined ||
-        mutationArgs[elm] === '') {
+      console.log(mutationArgs[elm])
+      if (mutationArgs[elm] === null || undefined) {
         return acc
       }
       if (Array.isArray(mutationArgs[elm]) ||
         mutationArgs[elm].constructor === Object) {
         acc = acc + `${elm}: ${this.parseToGql(mutationArgs[elm])},`
-        return acc
-      }
-      if (typeof mutationArgs[elm] === 'boolean' ||
-        typeof mutationArgs[elm] === 'number' ||
-        mutationArgs[elm] === 'POST' ||
-        mutationArgs[elm] === 'GET' ||
-        typeof mutationArgs[elm] === 'object') {
-        acc = acc + `${elm}: ${mutationArgs[elm]},`
         return acc
       }
       acc = acc + `${elm}: "${mutationArgs[elm]}",`
@@ -117,13 +108,7 @@ export class Builder {
     let fields = ''
 
     return fields = keys.reduce((acc, arg) => {
-      if (queryArgs[arg] === null ||
-        undefined) {
-        return acc
-      }
-      if (typeof queryArgs[arg] === 'boolean' ||
-        typeof queryArgs[arg] === 'number') {
-        acc = acc + `${arg}: ${queryArgs[arg]},`
+      if (queryArgs[arg] === null || undefined) {
         return acc
       }
       acc = acc + `${arg}: "${queryArgs[arg]}",`
