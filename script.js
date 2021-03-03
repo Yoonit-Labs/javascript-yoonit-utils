@@ -23,7 +23,7 @@ function buildMutation() {
 		input.value,
 		inputTwo.value,
 	]
-  const mutation = build.mutation('editUsers')({ value })('status', 'message', 'id', 'names', 'users')
+  const mutation = build.mutation('editUsers')({ value, 'userId': input.value })('status', 'message', 'id', 'names', 'users')
   console.log(mutation)
 	output.innerText = mutation
 }

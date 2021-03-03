@@ -17,9 +17,7 @@ export class Builder {
       let args = this.buildMutationArgs(queryArgs, appToken)
 
       return (...fields) => {
-        console.log(fields)
         let requestedFields = this.buildRequestedFields(fields)
-        console.log(requestedFields)
 
         return `mutation {
           ${endpoint} (
@@ -40,9 +38,7 @@ export class Builder {
       let args = this.buildQueryArgs(queryArgs, appToken)
 
       return (...fields) => {
-        console.log(fields)
         let requestedFields = this.buildRequestedFields(fields)
-        console.log(requestedFields)
 
         return `query {
           ${endpoint} (
@@ -56,9 +52,7 @@ export class Builder {
   }
   
   buildRequestedFields(fields) {
-    let requestedFieldsString = ''
-    requestedFieldsString = requestedFieldsString + fields.reduce((...args) => this.reduceFunction(...args))
-    return requestedFieldsString
+    return fields.reduce((...args) => this.reduceFunction(...args))
   }
 
   reduceFunction(acc, elm){
@@ -66,68 +60,54 @@ export class Builder {
       acc = `${acc}, ${elm}`
       return acc
     }
+
     if (elm.constructor === Object) {
       const keys = Object.keys(elm)
-      acc = `${acc}, ${keys[0]} { `
       const objBody = elm[keys[0]].reduce((...args) => this.reduceFunction(...args))
-      acc = `${acc}${objBody} }`
+      acc = `${acc}, ${keys[0]} { ${objBody} }`
       return acc
     }
-    console.warn('Error')
+
+    console.warn('One of your requested fields is in a wrong format')
     return false
   }
 
-  buildMutationArgs(obj, token) {
-    let appToken = ''
-    if (token) {
-      appToken = `token: "${token}",`
-    }
-    let fields = ''
-    const keys = Object.keys(obj)
-    if (!keys.length) {
-      fields = `token: "${appToken}"`
-    }
-    return fields = Object.keys(obj).reduce((acc, elm) => {
-      if (obj[elm] === null || obj[elm] === undefined || obj[elm] === '') {
+  buildMutationArgs(mutationArgs, token) {
+    let appToken = token ? `token: "${token}",` : ''
+    const keys = Object.keys(mutationArgs)
+    let fields = keys.length ? '' : `token: "${appToken}"`
+
+    return fields = keys.reduce((acc, elm) => {
+      if (mutationArgs[elm] === null || mutationArgs[elm] === undefined || mutationArgs[elm] === '') {
         return acc
       }
-      if (Array.isArray(obj[elm]) || obj[elm].constructor === Object) {
-        acc = acc + `${elm}: ${this.parseToGql(obj[elm])},`
+      if (Array.isArray(mutationArgs[elm]) || mutationArgs[elm].constructor === Object) {
+        acc = acc + `${elm}: ${this.parseToGql(mutationArgs[elm])},`
         return acc
       }
-      if (typeof obj[elm] === 'boolean' || typeof obj[elm] === 'number' || obj[elm] === 'POST' || obj[elm] === 'GET' || typeof obj[elm] === 'object') {
-        acc = acc + `${elm}: ${obj[elm]},`
+      if (typeof mutationArgs[elm] === 'boolean' || typeof mutationArgs[elm] === 'number' || mutationArgs[elm] === 'POST' || mutationArgs[elm] === 'GET' || typeof mutationArgs[elm] === 'object') {
+        acc = acc + `${elm}: ${mutationArgs[elm]},`
         return acc
       }
-      acc = acc = acc + `${elm}: "${obj[elm]}",`
+      acc = acc + `${elm}: "${mutationArgs[elm]}",`
       return acc
     }, appToken)
   }
 
   buildQueryArgs(queryArgs, token) {
-    let appToken = ''
-    if (token) {
-      appToken = `token: "${token}",`
-    }
-    let fields = ''
+    let appToken = token ? `token: "${token}",` : ''
     const keys = Object.keys(queryArgs)
-    if (!keys.length) {
-      fields = `token: "${appToken}"`
-    }
+    let fields = keys.length ? '' : `token: "${appToken}"`
+
     return fields = keys.reduce((acc, arg) => {
-      console.log(acc)
       if (queryArgs[arg] === null || undefined) {
-        console.log(acc, '1')
         return acc
       }
       if (typeof queryArgs[arg] === 'boolean' || typeof queryArgs[arg] === 'number') {
         acc = acc + `${arg}: ${queryArgs[arg]},`
-        console.log(acc, '2')
         return acc
       }
-      console.log(acc, '2,4')
       acc = acc + `${arg}: "${queryArgs[arg]}",`
-      console.log(arg, '3')
       return acc
     }, appToken)
   }
