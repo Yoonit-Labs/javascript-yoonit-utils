@@ -13,7 +13,7 @@ buttonTwo.addEventListener("click", buildMutation)
 function buildQuery() {
 	const value = input.value
 	const valueTwo = inputTwo.value
-  const query = build.query('getUsers')({ value, valueTwo, token: 'aehaueha' })('status', 'message', 'id', 'names', 'users')
+  const query = build.query('getUsers')({ value, valueTwo, token: 'aehaueha' })('status', {'message': ['ola', { teste: 'olar', 'teste': ['abc', 'bcd'] }, 'tchau']}, 'id', 'names', 'users')
   console.log(query)
 	output.innerText = query
 }

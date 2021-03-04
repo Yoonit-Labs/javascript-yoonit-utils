@@ -12,14 +12,13 @@ export class Builder {
 
   // this function constructs the query/mutation body calling other functions
   construct(type, methodName) {
-    console.log(type)
     if (!methodName) {
       console.warn("You need to send an endpoint")
       return false
     }
 
-    return (queryArgs, appToken) => {
-      let args = this.buildMutationArgs(queryArgs, appToken)
+    return (args, appToken) => {
+      let argString = this.buildArgs(args, appToken)
 
       return (...fields) => {
         if (!fields.length) {
@@ -30,7 +29,7 @@ export class Builder {
 
         return `${type} {
           ${methodName} (
-            ${args}
+            ${argString}
           ){
             ${requestedFields}
             }
@@ -62,11 +61,17 @@ export class Builder {
       acc = `${acc}, ${elm}`
       return acc
     }
-
     if (elm.constructor === Object) {
-      const keys = Object.keys(elm)
-      const objBody = elm[keys[0]].reduce((...args) => this.reduceFunction(...args))
-      acc = `${acc}, ${keys[0]} { ${objBody} }`
+      let keys = Object.keys(elm)
+      let keyBody = elm[keys[0]]
+
+      if (Array.isArray(keyBody)) {
+        const objBody = keyBody.reduce((...args) => this.reduceFunction(...args))
+        acc = `${acc}, ${keys[0]} { ${objBody} }`
+        return acc
+      }
+  
+      acc = `${acc}, ${keys[0]} { ${keyBody} }`
       return acc
     }
 
@@ -74,17 +79,17 @@ export class Builder {
     return false
   }
 
-  // this function builds the mutation arguments string
-  buildMutationArgs(mutationArgs) {
-    if (!mutationArgs.constructor === Object) {
-      console.warn("Your mutation arguments must be an Object!")
+
+  // this function builds the query arguments string
+  buildArgs(args) {
+    if (!args.constructor === Object) {
+      console.warn("Your query arguments must be an Object!")
       return ''
     }
-    const keys = Object.keys(mutationArgs)
+    const keys = Object.keys(args)
     let fields = ''
 
     return fields = keys.reduce((acc, elm) => {
-      console.log(mutationArgs[elm])
       if (mutationArgs[elm] === null || undefined) {
         return acc
       }
@@ -94,24 +99,6 @@ export class Builder {
         return acc
       }
       acc = acc + `${elm}: "${mutationArgs[elm]}",`
-      return acc
-    }, '')
-  }
-
-  // this function builds the query arguments string
-  buildQueryArgs(queryArgs) {
-    if (!queryArgs.constructor === Object) {
-      console.warn("Your query arguments must be an Object!")
-      return ''
-    }
-    const keys = Object.keys(queryArgs)
-    let fields = ''
-
-    return fields = keys.reduce((acc, arg) => {
-      if (queryArgs[arg] === null || undefined) {
-        return acc
-      }
-      acc = acc + `${arg}: "${queryArgs[arg]}",`
       return acc
     }, '')
   }
