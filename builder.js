@@ -80,7 +80,7 @@ export class Builder {
   }
 
 
-  // this function builds the query arguments string
+  // this function builds the arguments string
   buildArgs(args) {
     if (!args.constructor === Object) {
       console.warn("Your query arguments must be an Object!")
@@ -90,15 +90,15 @@ export class Builder {
     let fields = ''
 
     return fields = keys.reduce((acc, elm) => {
-      if (mutationArgs[elm] === null || undefined) {
+      if (args[elm] === null || undefined) {
         return acc
       }
-      if (Array.isArray(mutationArgs[elm]) ||
-        mutationArgs[elm].constructor === Object) {
-        acc = acc + `${elm}: ${this.parseToGql(mutationArgs[elm])},`
+      if (Array.isArray(args[elm]) ||
+      args[elm].constructor === Object) {
+        acc = acc + `${elm}: ${this.parseToGql(args[elm])},`
         return acc
       }
-      acc = acc + `${elm}: "${mutationArgs[elm]}",`
+      acc = acc + `${elm}: "${args[elm]}",`
       return acc
     }, '')
   }
