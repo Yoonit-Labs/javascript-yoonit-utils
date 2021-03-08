@@ -1,0 +1,19 @@
+{
+  "name": "graph-yoonit-ql",
+  "version": "1.0.0",
+  "description": "A JS Utils library made to simplify your life",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test-unit-coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yoonit-Labs/graph-yoonit-ql.git"
+  },
+  "author": "Cyberlabs AI",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Yoonit-Labs/graph-yoonit-ql/issues"
+  },
+  "homepage": "https://github.com/Yoonit-Labs/graph-yoonit-ql#readme"
+}

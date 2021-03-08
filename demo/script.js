@@ -1,4 +1,4 @@
-import { Builder } from './builder.js'
+import { Builder } from '../builder.js'
 const button = document.getElementById('button')
 const buttonTwo = document.getElementById('button2')
 const output = document.getElementById('output')
