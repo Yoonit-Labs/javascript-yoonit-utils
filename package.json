@@ -4,7 +4,7 @@
   "description": "A JS Utils library made to simplify your life",
   "main": "index.js",
   "scripts": {
-    "test": "npm run test-unit-coverage"
+    "test":
   },
   "repository": {
     "type": "git",
