@@ -1,5 +1,5 @@
 {
-  "name": "graph-yoonit-ql",
+  "name": "yoonit-utils",
   "version": "1.0.0",
   "description": "A JS Utils library made to simplify your life",
   "main": "index.js",
