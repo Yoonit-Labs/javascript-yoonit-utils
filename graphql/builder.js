@@ -3,9 +3,7 @@
 export const parseToGql = args => {
   let newArgs = JSON.stringify(args)
   newArgs = newArgs.replace(/\"([A-z])\w+\"(\:| \:)/g, elm => {
-    console.log('elm1', elm)
     elm = elm.replace(/\"/g, '')
-    console.log('elm2', elm)
     return elm
   })
   return newArgs
@@ -40,7 +38,11 @@ export const construct = (type, methodName) => {
 export const mutation = (mutationName) => {
   if(!mutationName) {
     console.warn("You need to specify an endpoint")
-    return false
+    return () => {
+      return () => {
+        return false
+      }
+    }
   }
   return construct.call(this, 'mutation', mutationName)
 }
@@ -50,7 +52,11 @@ export const mutation = (mutationName) => {
 export const query = (queryName) => {
   if(!queryName) {
     console.warn("You need to specify an endpoint")
-    return false
+    return () => {
+      return () => {
+        return false
+      }
+    }
   }
   return construct.call(this, 'query', queryName)
 }

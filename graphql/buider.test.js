@@ -6,7 +6,7 @@ describe('GraphQL Builder Methods', () => {
   })
 
   it('Tests mutation builder method', () => {
-    expect(Builder.mutation()).toBe(false)
+    expect(Builder.mutation()()()).toBe(false)
     expect(Builder.mutation('mutationName')()()).toBe(false)
     expect(Builder.mutation('mutationName')({ value: 'testValue' })()).toBe(false)
     expect(
@@ -43,7 +43,7 @@ describe('GraphQL Builder Methods', () => {
     })
 
   it('Tests query builder method', () => {
-    expect(Builder.query()).toBe(false)
+    expect(Builder.query()()()).toBe(false)
     expect(Builder.query(
       'queryName'
     )(
