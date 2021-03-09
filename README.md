@@ -18,7 +18,7 @@ A Javascript Lib that provides:
     * [Mutation Builder](#mutation-builder)
 * [Advanced Usage](#advanced-usage)
 * [Using for real](#using-it-for-real)
-* [Contribute](#contribute-and-make-it-better)
+* [Contribute](#to-contribute-and-make-it-better)
 
 ## Installation
 
