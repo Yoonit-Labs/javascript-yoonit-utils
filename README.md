@@ -27,7 +27,9 @@ npm i -s @yoonit/utils
 ```
 
 ## Usage
-You need to pass 3 parameters: A query name (such as 'getUsers'), a object with your arguments and the fields you expect to get from the response.
+We used a functional technique called currying at the main constructor function, this means that we pass a subset of arguments and each function returns a function that uses the next subset of arguments.
+
+The first parameters is a string and its the the endpoint name (such as 'getUsers'), it returns the function that uses the next parameter, the arguments object. This function will build the arguments body for your query/mutation and will return another function. This third function uses the third parameter you need to pass, the expected response fields. This will build the response filds and will return you query/mutation ready to use.
 You can use the builders without a arguments object, but you need to pass the endpoint name and the response fields, otherwise it will return false and a warning.
 
 Parameters: 
@@ -41,18 +43,7 @@ Parameters:
 ```javascript
 import { query } from '@yoonit/utils'
 
-const query = query(
-  'getUsers'
-)(
-  {
-    value: 'value',
-    valueTwo: 123
-  }
-)(
-  'status',
-  'message',
-  'messageTwo'
-)
+const query = query('getUsers')({ value: 'value', valueTwo: 123 })('status', 'message', 'messageTwo')
 
 console.log(query)
 ```
@@ -75,15 +66,7 @@ query {
 ```javascript
 import { mutation } from '@yoonit/utils'
 
-const mutation = mutation(
-  'createUser'
-)(
-  name: 'Mutation',
-  surname: 'Builder'
-)(
-  'status',
-  'message'
-)
+const mutation = mutation('createUser')(name: 'Mutation', surname: 'Builder')('status', 'message')
 ```
 Output
 ```
@@ -105,35 +88,7 @@ Our builders also suports nested response fields and arrays on arguments object,
 ```javascript
 import { mutation } from '@yoonit/utils'
 
-const mutation = mutation(
-  'createUser'
-)(
-  {
-    value: [
-      'value',
-      '123',
-      'John Doe'
-    ]
-  }
-)(
-  'status',
-  'message',
-  {
-    'messageTwo': [
-      'messageTitle',
-      'messageBody',
-      {
-        'messageAlt': 'test'
-      },
-      {
-        'messageAtt': [
-          'att1',
-          'att2'
-        ]
-      }
-    ]
-  }
-)
+const mutation = mutation('createUser')({ value: ['value', '123', 'John Doe']})('status', 'message', { 'messageTwo': ['messageTitle', 'messageBody', { 'messageAlt': 'test' }, { 'messageAtt': ['att1', 'att2'] }]})
 
 console.log(mutation)
 ```
@@ -172,35 +127,7 @@ See below how to use it with Fetch
 ```javascript
 import { mutation } from '@yoonit/utils'
 
-const body = mutation(
-  'createUser'
-)(
-  {
-    value: [
-      'value',
-      '123',
-      'John Doe'
-    ]
-  }
-)(
-  'status',
-  'message',
-  {
-    'messageTwo': [
-      'messageTitle',
-      'messageBody',
-      {
-        'messageAlt': 'test'
-      },
-      {
-        'messageAtt': [
-          'att1',
-          'att2'
-        ]
-      }
-    ]
-  }
-)
+const body = mutation('createUser')({value: ['value', '123', 'John Doe'] })('status', 'message', { 'messageTwo': ['messageTitle', 'messageBody', { 'messageAlt': 'test' }, { 'messageAtt': ['att1', 'att2'] }]})
 
 fetch('http://yourapi:5000', {
   method: 'POST',
