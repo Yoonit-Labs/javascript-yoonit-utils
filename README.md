@@ -10,6 +10,16 @@ A Javascript Lib that provides:
 - A GraphQl Query Builder
 - A GraphQl Mutation Builder
 
+## Table Of Contents
+
+* [Installation](#installation)
+* [Usage](#usage)
+    * [Query Builder](#query-builder)
+    * [Mutation Builder](#mutation-builder)
+* [Advanced Usage](#advanced-usage)
+* [Using for real](#using-it-for-real)
+* [Contribute](#contribute-and-make-it-better)
+
 ## Installation
 
 ```javascript
@@ -29,9 +39,20 @@ Parameters:
 ### Query Builder
 
 ```javascript
-import * as Builder from '@yoonit/utils'
+import { query } from '@yoonit/utils'
 
-const query = Builder.query('getUsers')({ value: 'value', valueTwo: 123 })('status', 'message', 'messageTwo')
+const query = query(
+  'getUsers'
+)(
+  {
+    value: 'value',
+    valueTwo: 123
+  }
+)(
+  'status',
+  'message',
+  'messageTwo'
+)
 
 console.log(query)
 ```
@@ -46,16 +67,24 @@ query {
 }
 ```
 
-## Mutation Builder
+### Mutation Builder
 
 ```javascript
-import * as Builder from '@yoonit/utils'
+import { mutation } from '@yoonit/utils'
 
-const mutation = Builder.mutation('createUser')(name: 'Mutation', surname: 'Builder')('status', 'message')
+const mutation = mutation(
+  'createUser'
+)(
+  name: 'Mutation',
+  surname: 'Builder'
+)(
+  'status',
+  'message'
+)
 ```
 Output
 ```
-query {
+mutation {
   createUser (
     name: "Mutation", surname: "Builder"
   ){
@@ -64,14 +93,42 @@ query {
 }
 ```
 
-### Advanced Usage
+## Advanced Usage
 
 Our builders also suports nested response fields and arrays on arguments object, see beelow how to use it:
 
 ```javascript
-import * as Builder from '@yoonit/utils'
+import { mutation } from '@yoonit/utils'
 
-const mutation = Builder.mutation('createUser')({ value: [ 'value', '123', 'John Doe' ] })('status', 'message', { 'messageTwo': ['messageTitle', 'messageBody', { 'messageAlt': 'test'}, { 'messageAtt': ['att1', 'att2'] }] })
+const mutation = mutation(
+  'createUser'
+)(
+  {
+    value: [
+      'value',
+      '123',
+      'John Doe'
+    ]
+  }
+)(
+  'status',
+  'message',
+  {
+    'messageTwo': [
+      'messageTitle',
+      'messageBody',
+      {
+        'messageAlt': 'test'
+      },
+      {
+        'messageAtt': [
+          'att1',
+          'att2'
+        ]
+      }
+    ]
+  }
+)
 
 console.log(mutation)
 ```
@@ -92,9 +149,37 @@ You can use it with js fetch or any other HTTP client you like.
 See below how to use it with Fetch
 
 ```javascript
-import * as Builder from '@yoonit/utils'
+import { mutation } from '@yoonit/utils'
 
-const body = Builder.mutation('createUser')({ value: [ 'value', '123', 'John Doe' ] })('status', 'message', { 'messageTwo': ['messageTitle', 'messageBody', { 'messageAlt': 'test'}, { 'messageAtt': ['att1', 'att2'] }] })
+const body = mutation(
+  'createUser'
+)(
+  {
+    value: [
+      'value',
+      '123',
+      'John Doe'
+    ]
+  }
+)(
+  'status',
+  'message',
+  {
+    'messageTwo': [
+      'messageTitle',
+      'messageBody',
+      {
+        'messageAlt': 'test'
+      },
+      {
+        'messageAtt': [
+          'att1',
+          'att2'
+        ]
+      }
+    ]
+  }
+)
 
 fetch('http://yourapi:5000', {
   method: 'POST',
@@ -110,6 +195,8 @@ fetch('http://yourapi:5000', {
 Clone the repo, change what you want and send PR.
 
 Contributions are always welcome!
+
+[<img src="https://contrib.rocks/image?repo=Yoonit-Labs/graph-yoonit-ql"/>](https://github.com/Yoonit-Labs/graph-yoonit-ql/graphs/contributors)
 
 ---
 
