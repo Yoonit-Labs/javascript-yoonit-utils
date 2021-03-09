@@ -22,7 +22,7 @@ function buildMutation() {
 		inputTwo.value,
 		false
 	]
-  const mutation = Builder.parseToGql(['123', {teste: '123'}])
+  const mutation = Builder.mutation('createUser')({ value: [ 'value', '123', 'John Doe' ] })('status', 'message', { 'messageTwo': ['messageTitle', 'messageBody', { 'messageAlt': 'test'}, { 'messageAtt': ['att1', 'att2'] }] })
   console.log(mutation)
 	output.innerText = mutation
 }
