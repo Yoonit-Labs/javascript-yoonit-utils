@@ -60,9 +60,12 @@ Output
 ```
 query {
   getUsers (
-    value: "value",valueTwo: 123,
+    value: "value",
+    valueTwo: 123,
   ){
-    status, message, messageTwo
+    status,
+    message,
+    messageTwo
   }
 }
 ```
@@ -86,9 +89,11 @@ Output
 ```
 mutation {
   createUser (
-    name: "Mutation", surname: "Builder"
+    name: "Mutation",
+    surname: "Builder"
   ){
-    status, message
+    status,
+    message
   }
 }
 ```
@@ -137,9 +142,25 @@ Output
 ```
 mutation {
   createUser (
-    value: ['value', '123', 'John Doe'],
+    value: [
+      'value',
+      '123',
+      'John Doe'
+    ],
   ){
-    status, message, messageTwo { messageTitle, messageBody, messageAlt { test }, messageAtt { att1, att2 } }
+    status,
+    message,
+    messageTwo {
+      messageTitle,
+      messageBody,
+      messageAlt {
+        test
+      },
+      messageAtt {
+        att1,
+        att2
+      }
+    }
   }
 }
 ```
