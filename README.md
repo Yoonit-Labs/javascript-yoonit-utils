@@ -36,14 +36,14 @@ const query = Builder.query('getUsers')({ value: 'value', valueTwo: 123 })('stat
 console.log(query)
 ```
 Output
-```json
+```
 query {
   getUsers (
     value: "value",valueTwo: 123,
   ){
     status, message, messageTwo
-    }
   }
+}
 ```
 
 ## Mutation Builder
@@ -54,14 +54,14 @@ import * as Builder from '@yoonit/utils'
 const mutation = Builder.mutation('createUser')(name: 'Mutation', surname: 'Builder')('status', 'message')
 ```
 
-```json
+```
 query {
   createUser (
     name: "Mutation", surname: "Builder"
   ){
     status, message
-    }
   }
+}
 ```
 
 ### Advanced Usage
@@ -77,7 +77,7 @@ console.log(mutation)
 ```
 
 Output
-```json
+```
 mutation {
   createUser (
     value: ['value', '123', 'John Doe'],
