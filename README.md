@@ -53,7 +53,7 @@ import * as Builder from '@yoonit/utils'
 
 const mutation = Builder.mutation('createUser')(name: 'Mutation', surname: 'Builder')('status', 'message')
 ```
-
+Output
 ```
 query {
   createUser (

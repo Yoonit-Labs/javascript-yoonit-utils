@@ -1,6 +1,6 @@
 
 // this function parses the arrays on mutations arguments so graphql doesnt fuck up
-export const parseToGql = args => {
+const parseToGql = args => {
   let newArgs = JSON.stringify(args)
   newArgs = newArgs.replace(/\"([A-z])\w+\"(\:| \:)/g, elm => {
     elm = elm.replace(/\"/g, '')
@@ -10,7 +10,7 @@ export const parseToGql = args => {
 }
 
 // this function constructs the query/mutation body calling other functions
-export const construct = (type, methodName) => {
+const construct = (type, methodName) => {
 
   return (args) => {
     let argString = buildArgs(args)
@@ -62,12 +62,12 @@ export const query = (queryName) => {
 }
 
 // this function returns the requested fields string
-export const buildRequestedFields = (fields) => {
+const buildRequestedFields = (fields) => {
   return fields.reduce((...args) => reduceFunction(...args))
 }
 
 // this function builds the requested fields string
-export const reduceFunction = (acc, elm) => {
+const reduceFunction = (acc, elm) => {
   if (typeof elm === 'string') {
     acc = `${acc}, ${elm}`
     return acc
@@ -91,7 +91,7 @@ export const reduceFunction = (acc, elm) => {
 }
 
 // this function builds the arguments string
-export const buildArgs = (args) => {
+const buildArgs = (args) => {
   if (!args || args.constructor !== Object) {
     return ''
   }
