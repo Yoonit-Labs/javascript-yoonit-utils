@@ -41,9 +41,9 @@ Parameters:
 ### Query Builder
 
 ```javascript
-import { query } from '@yoonit/utils'
+import { graphql } from '@yoonit/utils'
 
-const query = query('getUsers')({ value: 'value', valueTwo: 123 })('status', 'message', 'messageTwo')
+const query = graphql.query('getUsers')({ value: 'value', valueTwo: 123 })('status', 'message', 'messageTwo')
 
 console.log(query)
 ```
@@ -64,9 +64,9 @@ query {
 ### Mutation Builder
 
 ```javascript
-import { mutation } from '@yoonit/utils'
+import { graphql } from '@yoonit/utils'
 
-const mutation = mutation('createUser')(name: 'Mutation', surname: 'Builder')('status', 'message')
+const mutation = graphql.mutation('createUser')(name: 'Mutation', surname: 'Builder')('status', 'message')
 ```
 Output
 ```
@@ -86,9 +86,9 @@ mutation {
 Our builders also suports nested response fields and arrays on arguments object, see beelow how to use it:
 
 ```javascript
-import { mutation } from '@yoonit/utils'
+import { graphql } from '@yoonit/utils'
 
-const mutation = mutation('createUser')({ value: ['value', '123', 'John Doe']})('status', 'message', { 'messageTwo': ['messageTitle', 'messageBody', { 'messageAlt': 'test' }, { 'messageAtt': ['att1', 'att2'] }]})
+const mutation = graphql.mutation('createUser')({ value: ['value', '123', 'John Doe']})('status', 'message', { 'messageTwo': ['messageTitle', 'messageBody', { 'messageAlt': 'test' }, { 'messageAtt': ['att1', 'att2'] }]})
 
 console.log(mutation)
 ```
@@ -125,9 +125,9 @@ You can use it with js fetch or any other HTTP client you like.
 See below how to use it with Fetch
 
 ```javascript
-import { mutation } from '@yoonit/utils'
+import { graphql } from '@yoonit/utils'
 
-const body = mutation('createUser')({value: ['value', '123', 'John Doe'] })('status', 'message', { 'messageTwo': ['messageTitle', 'messageBody', { 'messageAlt': 'test' }, { 'messageAtt': ['att1', 'att2'] }]})
+const body = graphql.mutation('createUser')({value: ['value', '123', 'John Doe'] })('status', 'message', { 'messageTwo': ['messageTitle', 'messageBody', { 'messageAlt': 'test' }, { 'messageAtt': ['att1', 'att2'] }]})
 
 fetch('http://yourapi:5000', {
   method: 'POST',

@@ -3,10 +3,11 @@ module.exports = {
   collectCoverageFrom: [
     "**/*.{js,jsx}",
     "!**/*.config.{js,jsx}/**",
+    "!**/*.eslintrc.{js,jsx}/**",
     "!**/index.js/**",
     "!**/node_modules/**",
     "!**/dist/**",
     "!**/demo/**",
-    "!**/coverage/**"
+    "!**/coverage/**",
   ],
 };

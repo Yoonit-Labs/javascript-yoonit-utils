@@ -1,3 +1,3 @@
-import graphql from './graphql/builder'
+import graphql from './graphql/graphql'
 
 export { graphql }

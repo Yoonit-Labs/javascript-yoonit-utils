@@ -1,23 +1,20 @@
-import * as Builder from './builder'
+import graphql from './graphql'
 
-describe('GraphQL Builder Methods', () => {
-  it('Tests parseToGql method', () => {
-    expect(Builder.parseToGql(['This', 'is', 'a', 'test', { objTest: 'test' }])).toBe("[\"This\",\"is\",\"a\",\"test\",{objTest:\"test\"}]")
-  })
-
-  it('Tests mutation builder method', () => {
-    expect(Builder.mutation()()()).toBe(false)
-    expect(Builder.mutation('mutationName')()()).toBe(false)
-    expect(Builder.mutation('mutationName')({ value: 'testValue' })()).toBe(false)
+describe('GraphQL graphql Methods', () => {
+  it('Tests mutation graphql method', () => {
+    expect(graphql.mutation()()()).toBe(false)
+    expect(graphql.mutation('mutationName')()()).toBe(false)
+    expect(graphql.mutation('mutationName')({ value: 'testValue' })()).toBe(false)
     expect(
-      Builder.mutation(
+      graphql.mutation(
         'mutationName'
       )(
         { 
           'value': [
             123,
             223,
-            5123
+            5123,
+            { objTest: 'test' }
           ],
           'userId': 'noId',
           token: 'myW3bTok3n',
@@ -34,7 +31,7 @@ describe('GraphQL Builder Methods', () => {
       )).toBe(
         `mutation {
         mutationName (
-          value: [123,223,5123],userId: "noId",token: "myW3bTok3n",teste: false,
+          value: [123,223,5123,{objTest:"test"}],userId: "noId",token: "myW3bTok3n",teste: false,
         ){
           status, message, id, names, users
           }
@@ -42,9 +39,9 @@ describe('GraphQL Builder Methods', () => {
       )
     })
 
-  it('Tests query builder method', () => {
-    expect(Builder.query()()()).toBe(false)
-    expect(Builder.query(
+  it('Tests query graphql method', () => {
+    expect(graphql.query()()()).toBe(false)
+    expect(graphql.query(
       'queryName'
     )(
       {
