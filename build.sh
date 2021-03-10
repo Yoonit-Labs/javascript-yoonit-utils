@@ -69,6 +69,7 @@ echo 'Preparing "npm" folder to deploy...'
 mkdir npm
 cp -fR dist/* npm
 cp README.md npm/README.md
+cp LICENSE npm/LICENSE
 cp package.json npm/package.json
 rm -rf dist
 pause

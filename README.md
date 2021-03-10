@@ -5,7 +5,7 @@
 ![Version](https://img.shields.io/npm/v/@yoonit/utils?color=lightgrey&style=for-the-badge&logo=npm)
 ![Downloads](https://img.shields.io/npm/dm/@yoonit/utils?color=lightgrey&logo=npm&style=for-the-badge)
 ![Javascript](https://img.shields.io/badge/Javascript-35495E?color=lightgrey&style=for-the-badge&logo=javascript)
-![MIT license](https://img.shields.io/npm/l/@yoonit/utils?color=lightgrey&style=for-the-badge)
+![MIT license](https://img.shields.io/npm/l/@yoonit/nativescript-camera?color=lightgrey&style=for-the-badge)
 
 A Javascript Lib that provides:
 - A GraphQl Query Builder
