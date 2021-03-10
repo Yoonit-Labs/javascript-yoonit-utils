@@ -7,8 +7,8 @@
  */
 const parseToGql = args => {
   let newArgs = JSON.stringify(args)
-  newArgs = newArgs.replace(/\"([A-z])\w+\"(\:| \:)/g, elm => {
-    elm = elm.replace(/\"/g, '')
+  newArgs = newArgs.replace(/"([A-z])\w+"(:| :)/g, elm => {
+    elm = elm.replace(/"/g, '')
     return elm
   })
   return newArgs
@@ -25,22 +25,18 @@ const parseToGql = args => {
  *  @return {String} builds a query/mutation string with all the parameters and returns it
  */
 const construct = (type, methodName) => {
-
   return (args) => {
-    let argString = buildArgs(args)
-
     return (...fields) => {
       if (!fields.length) {
-        console.warn("You need to specify at least one response field")
-        return false 
+        console.warn('You need to specify at least one response field')
+        return false
       }
-      let requestedFields = buildRequestedFields(fields)
 
       return `${type} {
         ${methodName} (
-          ${argString}
+          ${buildArgs(args)}
         ){
-          ${requestedFields}
+          ${buildRequestedFields(fields)}
           }
         }`
     }
@@ -52,12 +48,12 @@ const construct = (type, methodName) => {
  *  @method mutation
  *  @param  {String} receive the mutation name
  *  @param  {Object} receive the arguments object. Pass it to construct on return.
- *  @param  {Array} receive an array with the expected response fields. Pass it to construct on return. 
+ *  @param  {Array} receive an array with the expected response fields. Pass it to construct on return.
  *  @return {Function | Boolean} construct | false
  */
 const mutation = (mutationName) => {
-  if(!mutationName) {
-    console.warn("You need to specify an endpoint")
+  if (!mutationName) {
+    console.warn('You need to specify an endpoint')
     return () => {
       return () => {
         return false
@@ -74,8 +70,8 @@ const mutation = (mutationName) => {
  *  @return {Function | Boolean} construct | false
  */
 const query = (queryName) => {
-  if(!queryName) {
-    console.warn("You need to specify an endpoint")
+  if (!queryName) {
+    console.warn('You need to specify an endpoint')
     return () => {
       return () => {
         return false
@@ -107,8 +103,8 @@ const reduceFunction = (acc, elm) => {
     return acc
   }
   if (elm.constructor === Object) {
-    let keys = Object.keys(elm)
-    let keyBody = elm[keys[0]]
+    const keys = Object.keys(elm)
+    const keyBody = elm[keys[0]]
 
     if (Array.isArray(keyBody)) {
       const objBody = keyBody.reduce((...args) => reduceFunction(...args))
@@ -140,13 +136,16 @@ const buildArgs = (args) => {
     if (args[elm] === null || undefined) {
       return acc
     }
+
     if (Array.isArray(args[elm]) ||
-    args[elm].constructor === Object ||
-    typeof args[elm] === 'boolean') {
+        args[elm].constructor === Object ||
+        typeof args[elm] === 'boolean') {
       acc = acc + `${elm}: ${parseToGql(args[elm])},`
       return acc
     }
+
     acc = acc + `${elm}: "${args[elm]}",`
+
     return acc
   }, '')
 }
