@@ -55,7 +55,7 @@ const construct = (type, methodName) => {
  *  @param  {Array} receive an array with the expected response fields. Pass it to construct on return. 
  *  @return {Function | Boolean} construct | false
  */
-export const mutation = (mutationName) => {
+const mutation = (mutationName) => {
   if(!mutationName) {
     console.warn("You need to specify an endpoint")
     return () => {
@@ -73,7 +73,7 @@ export const mutation = (mutationName) => {
  *  @param  {String} receive the query name
  *  @return {Function | Boolean} construct | false
  */
-export const query = (queryName) => {
+const query = (queryName) => {
   if(!queryName) {
     console.warn("You need to specify an endpoint")
     return () => {
@@ -150,3 +150,10 @@ const buildArgs = (args) => {
     return acc
   }, '')
 }
+
+const graphql = {
+  query,
+  mutation
+}
+
+export default graphql

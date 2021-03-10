@@ -2,12 +2,14 @@
   "name": "@yoonit/utils",
   "version": "0.1.0",
   "description": "A JS Utils library made to simplify your life",
-  "main": "index.js",
+  "main": "dist/yoo-utils.bundle.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Yoonit-Labs/graph-yoonit-ql.git"
   },
   "scripts": {
+    "dev": "webpack --mode development",
+    "build": "webpack",
     "test:unit": "jest",
     "test:unit:watch": "jest --watch-all",
     "test:unit:coverage": "jest --coverage"
@@ -20,7 +22,15 @@
   "homepage": "https://github.com/Yoonit-Labs/graph-yoonit-ql#readme",
   "devDependencies": {
     "@babel/preset-env": "^7.13.10",
+    "@webpack-cli/init": "^1.1.3",
     "babel-jest": "^26.6.3",
-    "jest": "^26.6.3"
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "html-webpack-plugin": "^5.3.1",
+    "jest": "^26.6.3",
+    "webpack": "^5.24.4",
+    "webpack-cli": "^4.5.0"
+  },
+  "dependencies": {
+    "npm": "^7.6.2"
   }
 }

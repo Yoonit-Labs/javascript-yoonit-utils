@@ -5,6 +5,7 @@ module.exports = {
     "!**/*.config.{js,jsx}/**",
     "!**/index.js/**",
     "!**/node_modules/**",
+    "!**/dist/**",
     "!**/demo/**",
     "!**/coverage/**"
   ],
