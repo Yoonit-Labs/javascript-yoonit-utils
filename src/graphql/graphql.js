@@ -26,17 +26,21 @@ const parseToGql = args => {
  */
 const construct = (type, methodName) => {
   return (args) => {
+    const finalArgs = buildArgs(args)
+
     return (...fields) => {
       if (!fields.length) {
         console.warn('You need to specify at least one response field')
         return false
       }
 
+      const finalFields = buildRequestedFields(fields)
+
       return `${type} {
         ${methodName} (
-          ${buildArgs(args)}
+          ${finalArgs}
         ){
-          ${buildRequestedFields(fields)}
+          ${finalFields}
           }
         }`
     }

@@ -56,11 +56,6 @@ wait
 echo ''
 echo '---------------------'
 echo 'Running Unit Tests...'
-npm run test:unit
-wait
-echo ''
-echo '---------------------'
-echo 'Tests Coverage...'
 npm run test:unit:coverage
 wait
 echo ''
