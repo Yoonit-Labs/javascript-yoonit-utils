@@ -1,4 +1,3 @@
-
 /*
  *  Parses arguments on query and mutation for graphql
  *  @method parseToGql
@@ -6,12 +5,16 @@
  *  @return {String} Returns the parsed parameter
  */
 const parseToGql = args => {
-  let newArgs = JSON.stringify(args)
-  newArgs = newArgs.replace(/"([A-z])\w+"(:| :)/g, elm => {
-    elm = elm.replace(/"/g, '')
-    return elm
-  })
-  return newArgs
+  const newArgs = JSON.stringify(args)
+
+  return newArgs.replace(
+    /"([A-z])\w+"(:| :)/g,
+    elm =>
+      elm.replace(
+        /"/g,
+        ''
+      )
+  )
 }
 
 /*
@@ -25,7 +28,7 @@ const parseToGql = args => {
  *  @return {String} builds a query/mutation string with all the parameters and returns it
  */
 const construct = (type, methodName) => {
-  return (args) => {
+  return args => {
     const finalArgs = buildArgs(args)
 
     return (...fields) => {
@@ -55,16 +58,18 @@ const construct = (type, methodName) => {
  *  @param  {Array} receive an array with the expected response fields. Pass it to construct on return.
  *  @return {Function | Boolean} construct | false
  */
-const mutation = (mutationName) => {
-  if (!mutationName) {
+const mutation = name => {
+  if (!name) {
     console.warn('You need to specify an endpoint')
+
     return () => {
       return () => {
         return false
       }
     }
   }
-  return construct.call(this, 'mutation', mutationName)
+
+  return construct.call(this, 'mutation', name)
 }
 
 /*
@@ -73,16 +78,18 @@ const mutation = (mutationName) => {
  *  @param  {String} receive the query name
  *  @return {Function | Boolean} construct | false
  */
-const query = (queryName) => {
-  if (!queryName) {
+const query = name => {
+  if (!name) {
     console.warn('You need to specify an endpoint')
+
     return () => {
       return () => {
         return false
       }
     }
   }
-  return construct.call(this, 'query', queryName)
+
+  return construct.call(this, 'query', name)
 }
 
 /*
@@ -91,9 +98,10 @@ const query = (queryName) => {
  *  @param  {Array} receive n params to pass through reduce function
  *  @return {String} returns the result from reduce
  */
-const buildRequestedFields = (fields) => {
-  return fields.reduce((...args) => reduceFunction(...args))
-}
+const buildRequestedFields = fields =>
+  fields.reduce((...args) =>
+    reduceFunction(...args)
+  )
 
 /*
  *  Its called by buildRequestedFields, its the reduce function that it's used to build the requested fields string
@@ -104,23 +112,31 @@ const buildRequestedFields = (fields) => {
 const reduceFunction = (acc, elm) => {
   if (typeof elm === 'string') {
     acc = `${acc}, ${elm}`
+
     return acc
   }
+
   if (elm.constructor === Object) {
     const keys = Object.keys(elm)
     const keyBody = elm[keys[0]]
 
     if (Array.isArray(keyBody)) {
-      const objBody = keyBody.reduce((...args) => reduceFunction(...args))
+      const objBody = keyBody.reduce((...args) =>
+        reduceFunction(...args)
+      )
+
       acc = `${acc}, ${keys[0]} { ${objBody} }`
+
       return acc
     }
 
     acc = `${acc}, ${keys[0]} { ${keyBody} }`
+
     return acc
   }
 
   console.warn('One of your requested fields is in a wrong format')
+
   return acc
 }
 
@@ -130,10 +146,11 @@ const reduceFunction = (acc, elm) => {
  *  @param  {Object} receive an object with the arguments
  *  @return {String} returns the string to build the query/mutation
  */
-const buildArgs = (args) => {
+const buildArgs = args => {
   if (!args || args.constructor !== Object) {
     return ''
   }
+
   const keys = Object.keys(args)
 
   return keys.reduce((acc, elm) => {
@@ -145,6 +162,7 @@ const buildArgs = (args) => {
         args[elm].constructor === Object ||
         typeof args[elm] === 'boolean') {
       acc = acc + `${elm}: ${parseToGql(args[elm])},`
+
       return acc
     }
 

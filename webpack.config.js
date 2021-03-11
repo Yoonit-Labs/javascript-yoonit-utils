@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require('path')
 
 module.exports = {
   entry: './src/index.js',
@@ -7,4 +7,13 @@ module.exports = {
     filename: 'yoo-utils.bundle.js',
     libraryTarget: 'commonjs2'
   },
-};
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader'
+      }
+    ]
+  }
+}
