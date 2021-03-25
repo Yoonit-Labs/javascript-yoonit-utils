@@ -158,10 +158,8 @@ const buildArgs = args => {
       return acc
     }
 
-  acc = acc + `${elm}: ${parseToGql(args[elm])},`
-
-  return acc
-
+    acc = acc + `${elm}: ${parseToGql(args[elm])},`
+    return acc
   }, '')
 }
 
