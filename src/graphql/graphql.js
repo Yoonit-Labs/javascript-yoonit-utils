@@ -160,7 +160,8 @@ const buildArgs = args => {
 
     if (Array.isArray(args[elm]) ||
         args[elm].constructor === Object ||
-        typeof args[elm] === 'boolean') {
+        typeof args[elm] === 'boolean' || 
+        Number.isInteger(args[elm])) {
       acc = acc + `${elm}: ${parseToGql(args[elm])},`
 
       return acc

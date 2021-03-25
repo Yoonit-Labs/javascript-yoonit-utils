@@ -16,7 +16,7 @@ describe('GraphQL graphql Methods', () => {
             5123,
             { objTest: 'test' }
           ],
-          userId: 'noId',
+          userId: 123,
           token: 'myW3bTok3n',
           test: false,
           nullTest: null
@@ -30,7 +30,7 @@ describe('GraphQL graphql Methods', () => {
         'users'
       )).toBe(`mutation {
         mutationName (
-          value: [123,223,5123,{objTest:"test"}],userId: "noId",token: "myW3bTok3n",test: false,
+          value: [123,223,5123,{objTest:"test"}],userId: 123,token: "myW3bTok3n",test: false,
         ){
           status, message, id, names, users
           }
@@ -69,7 +69,7 @@ describe('GraphQL graphql Methods', () => {
     )).toBe(
       `query {
         queryName (
-          value: "value1",valueTwo: "2",token: "myW3bTok3n",
+          value: "value1",valueTwo: 2,token: "myW3bTok3n",
         ){
           status, message, messageTwo { messageTitle, messageBody, messageAlt { alternative }, messageAtt { att1, att2 } }
           }
