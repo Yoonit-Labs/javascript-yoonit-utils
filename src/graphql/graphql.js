@@ -158,17 +158,10 @@ const buildArgs = args => {
       return acc
     }
 
-    if (Array.isArray(args[elm]) ||
-        args[elm].constructor === Object ||
-        typeof args[elm] === 'boolean') {
-      acc = acc + `${elm}: ${parseToGql(args[elm])},`
+  acc = acc + `${elm}: ${parseToGql(args[elm])},`
 
-      return acc
-    }
+  return acc
 
-    acc = acc + `${elm}: "${args[elm]}",`
-
-    return acc
   }, '')
 }
 
