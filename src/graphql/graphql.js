@@ -54,13 +54,9 @@ const construct = (type, methodName) => {
       }
 
       const finalFields = buildRequestedFields(fields)
-      const hasArguments = finalArgs.length ? finalArgs : ''
+      const hasArguments = finalArgs.length ? `(${finalArgs})` : ''
 
-      return `${type} {
-        ${methodName} ${hasArguments} {
-          ${finalFields}
-          }
-        }`
+      return `${type} {${methodName} ${hasArguments}{${finalFields}}}`
     }
   }
 }
@@ -140,12 +136,12 @@ const reduceFunction = (acc, elm) => {
         reduceFunction(...args)
       )
 
-      acc = `${acc}, ${keys[0]} { ${objBody} }`
+      acc = `${acc}, ${keys[0]} {${objBody}}`
 
       return acc
     }
 
-    acc = `${acc}, ${keys[0]} { ${keyBody} }`
+    acc = `${acc}, ${keys[0]} {${keyBody}}`
 
     return acc
   }
@@ -168,12 +164,17 @@ const buildArgs = args => {
 
   const keys = Object.keys(args)
 
-  return keys.reduce((acc, elm) => {
+  return keys.reduce((acc, elm, indx) => {
+    let comma = ','
+    if (indx === 0) {
+      comma = ''
+    }
+
     if (args[elm] === null || undefined) {
       return acc
     }
 
-    acc = acc + `${elm}: ${parseToGql(args[elm])},`
+    acc = `${acc}${comma}${elm}: ${parseToGql(args[elm])}`
     return acc
   }, '')
 }
