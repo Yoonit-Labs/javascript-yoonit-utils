@@ -38,11 +38,10 @@ const construct = (type, methodName) => {
       }
 
       const finalFields = buildRequestedFields(fields)
+      const hasArguments = finalArgs.length ? finalArgs : ''
 
       return `${type} {
-        ${methodName} (
-          ${finalArgs}
-        ){
+        ${methodName} ${hasArguments} {
           ${finalFields}
           }
         }`
