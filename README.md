@@ -1,15 +1,34 @@
-[<img src="https://raw.githubusercontent.com/Yoonit-Labs/nativescript-yoonit-camera/development/logo_cyberlabs.png" width="300">](https://cyberlabs.ai/)
+<h1 align="center">Yoonit Utils</h1>
 
-# Yoonit Utils
+<p align="center">
+	<img src="https://img.shields.io/npm/v/@yoonit/utils?color=lightgrey&style=for-the-badge&logo=npm"/>
+	<img src="https://img.shields.io/npm/dm/@yoonit/utils?color=lightgrey&logo=npm&style=for-the-badge"/>
+	<img src="https://img.shields.io/badge/Javascript-35495E?color=lightgrey&style=for-the-badge&logo=javascript"/>
+	<img src="https://img.shields.io/npm/l/@yoonit/utils?color=lightgrey&style=for-the-badge"/>
+</p>
 
-![Version](https://img.shields.io/npm/v/@yoonit/utils?color=lightgrey&style=for-the-badge&logo=npm)
-![Downloads](https://img.shields.io/npm/dm/@yoonit/utils?color=lightgrey&logo=npm&style=for-the-badge)
-![Javascript](https://img.shields.io/badge/Javascript-35495E?color=lightgrey&style=for-the-badge&logo=javascript)
-![MIT license](https://img.shields.io/npm/l/@yoonit/utils?color=lightgrey&style=for-the-badge)
-
-A Javascript Lib that provides:
+#### Couple of functions in JS to speed up development and give some help with:
 - A GraphQl Query Builder
 - A GraphQl Mutation Builder
+
+<div align="center">
+	<h3>Sponsors</h3>
+	<table>
+		<tbody>
+			<tr>
+				<td>
+					<b>Platinum</b>
+				</td>
+			</tr>
+			<tr>
+				<td align="center" valign="middle">
+					<a href="https://cyberlabs.ai"><img src="https://raw.githubusercontent.com/Yoonit-Labs/javascript-yoonit-utils/development/sponsor_cyberlabs.png" width="300" /></a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<h5><a href="mailto:about@yoonit.dev">Become a sponsor!</a></h5>
+</div>
 
 ## Table Of Contents
 
@@ -138,6 +157,7 @@ fetch('http://yourapi:5000', {
 ## To contribute and make it better
 
 Clone the repo, change what you want and send PR.
+For commit messages we use <a href="https://www.conventionalcommits.org/">Conventional Commits</a>.
 
 Contributions are always welcome!
 
@@ -145,4 +165,4 @@ Contributions are always welcome!
 
 ---
 
-Code with ❤ by the [**Cyberlabs AI**](https://cyberlabs.ai/) Front-End Team
+Code with ❤ by the [**Yoonit**](https://yoonit.dev/) Team
