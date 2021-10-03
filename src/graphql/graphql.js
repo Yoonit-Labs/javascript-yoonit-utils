@@ -54,11 +54,10 @@ const construct = (type, methodName) => {
       }
 
       const finalFields = buildRequestedFields(fields)
+      const hasArguments = finalArgs.length ? finalArgs : ''
 
       return `${type} {
-        ${methodName} (
-          ${finalArgs}
-        ){
+        ${methodName} ${hasArguments} {
           ${finalFields}
           }
         }`
@@ -174,16 +173,7 @@ const buildArgs = args => {
       return acc
     }
 
-    if (Array.isArray(args[elm]) ||
-        args[elm].constructor === Object ||
-        typeof args[elm] === 'boolean') {
-      acc = acc + `${elm}: ${parseToGql(args[elm])},`
-
-      return acc
-    }
-
-    acc = acc + `${elm}: "${args[elm]}",`
-
+    acc = acc + `${elm}: ${parseToGql(args[elm])},`
     return acc
   }, '')
 }
