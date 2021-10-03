@@ -1,11 +1,11 @@
 {
   "name": "@yoonit/utils",
-  "version": "1.0.4",
-  "description": "A simple JS utility library to speed up development",
+  "version": "1.0.5",
+  "description": "Couple of functions in JS to speed up development and give some help",
   "main": "yoo-utils.bundle.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Yoonit-Labs/javascript-yoonit-utils"
+    "url": "git+https://github.com/Yoonit-Labs/javascript-yoonit-utils.git"
   },
   "scripts": {
     "dev": "webpack --mode development",
@@ -16,8 +16,8 @@
     "lint": "eslint ./src"
   },
   "author": {
-    "name": "Luigui Delyer, Gabriel Moraes & Gabriel Mule @ Cyberlabs AI - 2021",
-    "email": "contato@cyberlabs.ai"
+    "name": "Gabriel Moraes, Luigui Delyer & Gabriel Mule @ 2021",
+    "email": "about@yoonit.dev"
   },
   "license": "MIT",
   "bugs": {
