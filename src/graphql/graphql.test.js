@@ -1,4 +1,5 @@
 import graphql from './graphql'
+
 beforeEach(() => {
   jest.spyOn(console, 'log').mockImplementation(() => {})
   jest.spyOn(console, 'error').mockImplementation(() => {})
@@ -31,20 +32,25 @@ describe('GraphQL helpers', () => {
       graphql
         .mutation(
           'mutationName'
-        )(
-          {
-            value: [
-              123,
-              223,
-              5123,
-              { objTest: 'test' }
-            ],
-            userId: 123,
-            token: 'myW3bTok3n',
-            test: false,
-            nullTest: null
-          }
-        )(
+        )({
+          where: {
+            desired_depart_stime: {
+              _gt: '2022-03-18'
+            }
+          },
+          order_by: '{desired_depart_stime: asc}',
+          test: [
+            123,
+            456,
+            789,
+            'value',
+            {
+              key: {
+                value: 123
+              }
+            }
+          ]
+        })(
           'status',
           'message',
           'id',
@@ -53,7 +59,7 @@ describe('GraphQL helpers', () => {
           'users'
         )
     )
-      .toBe('mutation {mutationName (value: [123,223,5123,{objTest:"test"}],userId: 123,token: "myW3bTok3n",test: false){status, message, id, names, users}}')
+      .toBe('mutation {mutationName (where:{desired_depart_stime:{_gt:"2022-03-18"}},order_by:{desired_depart_stime: asc},test:[123,456,789,"value",{key:{value:123}}]){status,message,id,names,users}}')
   )
 
   it('[Query] Empty input expected to be false', () =>
@@ -66,13 +72,25 @@ describe('GraphQL helpers', () => {
       graphql
         .query(
           'queryName'
-        )(
-          {
-            value: 'value1',
-            valueTwo: 2,
-            token: 'myW3bTok3n'
-          }
-        )(
+        )({
+          where: {
+            desired_depart_stime: {
+              _gt: '2022-03-18'
+            }
+          },
+          order_by: '{desired_depart_stime: asc}',
+          test: [
+            123,
+            456,
+            789,
+            'value',
+            {
+              key: {
+                value: 123
+              }
+            }
+          ]
+        })(
           'status',
           'message',
           {
@@ -80,18 +98,20 @@ describe('GraphQL helpers', () => {
               'messageTitle',
               'messageBody',
               {
-                messageAlt: 'alternative'
-              },
-              {
-                messageAtt: [
-                  'att1',
-                  'att2'
+                messageAlt: [
+                  'alternative'
                 ]
               }
+            ]
+          },
+          {
+            messageAtt: [
+              'att1',
+              'att2'
             ]
           }
         )
     )
-      .toBe('query {queryName (value: "value1",valueTwo: 2,token: "myW3bTok3n"){status, message, messageTwo {messageTitle, messageBody, messageAlt {alternative}, messageAtt {att1, att2}}}}')
+      .toBe('query {queryName (where:{desired_depart_stime:{_gt:"2022-03-18"}},order_by:{desired_depart_stime: asc},test:[123,456,789,"value",{key:{value:123}}]){status,message,messageTwo{messageTitle,messageBody,{messageAlt{alternative}}},messageAtt{att1,att2}}}')
   )
 })

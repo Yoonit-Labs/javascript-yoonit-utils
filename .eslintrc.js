@@ -12,6 +12,9 @@ module.exports = {
     '@babel',
     'jest'
   ],
+  globals: {
+    arguments: true
+  },
   parserOptions: {
     parser: '@babel/eslint-parser',
     babelOptions: {
@@ -23,6 +26,7 @@ module.exports = {
   rules: {
     'no-debugger': 'off',
     'no-console': 'off',
+    'no-case-declarations': 'off',
     'vue/require-valid-default-prop': 'off',
     'vue/require-default-prop': 'off',
     indent: ['error', 2],

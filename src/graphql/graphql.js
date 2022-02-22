@@ -11,41 +11,46 @@
  * Yoonit Utils
  * Couple of functions in JS to speed up development and give some help
  *
- * Gabriel Moraes & Luigui Delyer @ 2020-2021
+ * Gabriel Moraes, Luigui Delyer & Gabriel Mule @ 2021
  */
 
 /*
- *  Parses arguments on query and mutation for graphql
- *  @method parseToGql
- *  @param  {Array | Object | Boolean} Receive an array, object or a boolean to parse
- *  @return {String} Returns the parsed parameter
+ *  Receives all the params, verify if the {query}/{mutation}Name exists and returns the next function on chain or false
+ *  @method methodMaker
+ *  @param  {String} type - 'query' | 'mutation'
+ *  @param  {String} name - receive the query or mutation name
+ *  @return {Function} currying
+ *  @return {Function | Boolean} construct | false
  */
-const parseToGql = args => {
-  const newArgs = JSON.stringify(args)
+const methodMaker = type =>
+  name => {
+    if (!name) {
+      console.warn('You need to specify an endpoint')
 
-  return newArgs.replace(
-    /"([A-z])\w+"(:| :)/g,
-    elm =>
-      elm.replace(
-        /"/g,
-        ''
-      )
-  )
-}
+      return () => {
+        return () => {
+          return false
+        }
+      }
+    }
+
+    return construct.call(this, type, name)
+  }
 
 /*
- *  The main function of the file. This function builds the query/mutation in parts and each part return another function
- *  @method PromiseMaker
- *  @param  {String} receive the mutation name
- *  @return {Function} receive the arguments object from the previous function and call buildArgs to build it
- *  @param  {Object} receive the arguments object. Receive it from {query | mutation} method on return
- *  @return {Function} receive the expected fields array from the previous function and call buildRequetedFields to build it
- *  @param  {Array} receive an array with the expected response fields. Receive it from {query | mutation} method on return
- *  @return {String} builds a query/mutation string with all the parameters and returns it
- */
-const construct = (type, methodName) => {
-  return args => {
-    const finalArgs = buildArgs(args)
+*  The main function of the file. This function builds the query/mutation in parts and each part return another function
+*  @method construct
+*  @param  {String} type - receive the graphql type iteration, query or mutation
+*  @param  {String} name - receive the name of this gql method
+*  @return {Function} currying
+*  @param  {Object} receive the arguments object. Receive it from query/mutation method on return
+*  @return {Function} currying
+*  @param  {Array} receive an array with the expected response fields. Receive it from query/mutation method on return
+*  @return {String} builds a query/mutation string with all the parameters and returns it
+*/
+const construct = (type, name) =>
+  (...args) => {
+    const finalArgs = argsParser(args)
 
     return (...fields) => {
       if (!fields.length) {
@@ -53,135 +58,56 @@ const construct = (type, methodName) => {
         return false
       }
 
-      const finalFields = buildRequestedFields(fields)
+      const finalFields = fieldsParser(fields)
       const hasArguments = finalArgs.length ? `(${finalArgs})` : ''
 
-      return `${type} {${methodName} ${hasArguments}{${finalFields}}}`
-    }
-  }
-}
-
-/*
- *  Receives all the params, verify if the mutationName exists and returns the next function on chain or false
- *  @method mutation
- *  @param  {String} receive the mutation name
- *  @param  {Object} receive the arguments object. Pass it to construct on return.
- *  @param  {Array} receive an array with the expected response fields. Pass it to construct on return.
- *  @return {Function | Boolean} construct | false
- */
-const mutation = name => {
-  if (!name) {
-    console.warn('You need to specify an endpoint')
-
-    return () => {
-      return () => {
-        return false
-      }
+      return `${type} {${name} ${hasArguments}{${finalFields}}}`
     }
   }
 
-  return construct.call(this, 'mutation', name)
-}
-
-/*
- *  Receives all the params, verify if the queryName exists and returns the next function on chain or false
- *  @method query
- *  @param  {String} receive the query name
- *  @return {Function | Boolean} construct | false
- */
-const query = name => {
-  if (!name) {
-    console.warn('You need to specify an endpoint')
-
-    return () => {
-      return () => {
-        return false
-      }
-    }
-  }
-
-  return construct.call(this, 'query', name)
-}
-
-/*
- *  Calls reduceFunction to construct the requested fields string
- *  @method buildRequestedFields
- *  @param  {Array} receive n params to pass through reduce function
- *  @return {String} returns the result from reduce
- */
-const buildRequestedFields = fields =>
-  fields.reduce((...args) =>
-    reduceFunction(...args)
+const replaceDoubleQuotes = elm =>
+  elm.replace(
+    /"/g,
+    ''
   )
 
-/*
- *  Its called by buildRequestedFields, its the reduce function that it's used to build the requested fields string
- *  @method reduceFunction
- *  @param  {acc, elm} these parameters are given on reduce
- *  @return {String}
- */
-const reduceFunction = (acc, elm) => {
-  if (typeof elm === 'string') {
-    acc = `${acc}, ${elm}`
+const replaceHeaders = args =>
+  JSON
+    .stringify(args)
+    .replaceAll(/^[[]|[\]]$/g, '')
+    .replaceAll(/(\r\n)|(\n)|(\r)|(\s\s)/g, '')
+    .replaceAll(/\\/g, '')
 
-    return acc
-  }
+const argsParser = args =>
+  replaceHeaders(args)
+    .replaceAll(/^[{]|[}]$/g, '')
+    .replaceAll(/"{(.*)}"/g, replaceDoubleQuotes)
+    .replaceAll(/"([A-z])\w+"(:| :)/g, replaceDoubleQuotes)
 
-  if (elm.constructor === Object) {
-    const keys = Object.keys(elm)
-    const keyBody = elm[keys[0]]
+const fieldsParser = fields => {
+  fields = fields
+    .map(elm => {
+      if (elm.constructor === Object) {
+        return JSON
+          .stringify(elm)
+          .replaceAll(/^[{]|[}]$/g, '')
+      }
+      return elm
+    })
+    .filter(elm => (
+      elm.constructor !== Number &&
+      elm.constructor !== Boolean
+    ))
 
-    if (Array.isArray(keyBody)) {
-      const objBody = keyBody.reduce((...args) =>
-        reduceFunction(...args)
-      )
-
-      acc = `${acc}, ${keys[0]} {${objBody}}`
-
-      return acc
-    }
-
-    acc = `${acc}, ${keys[0]} {${keyBody}}`
-
-    return acc
-  }
-
-  console.warn('One of your requested fields is in a wrong format')
-
-  return acc
-}
-
-/*
- *  Builds the arguments string
- *  @method buildArgs
- *  @param  {Object} receive an object with the arguments
- *  @return {String} returns the string to build the query/mutation
- */
-const buildArgs = args => {
-  if (!args || args.constructor !== Object) {
-    return ''
-  }
-
-  const keys = Object.keys(args)
-
-  return keys.reduce((acc, elm, indx) => {
-    let comma = ','
-    if (indx === 0) {
-      comma = ''
-    }
-
-    if (args[elm] === null || undefined) {
-      return acc
-    }
-
-    acc = `${acc}${comma}${elm}: ${parseToGql(args[elm])}`
-    return acc
-  }, '')
+  return replaceHeaders(fields)
+    .replaceAll(/[:|"]/g, '')
+    .replaceAll(/\[/g, '{')
+    .replaceAll(/]/g, '}')
 }
 
 const graphql = {
-  query,
-  mutation
+  query: methodMaker('query'),
+  mutation: methodMaker('mutation')
 }
 
 export default graphql

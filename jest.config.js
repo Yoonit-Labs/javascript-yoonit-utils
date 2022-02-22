@@ -15,5 +15,6 @@ module.exports = {
     '!**/dist/**',
     '!**/demo/**',
     '!**/coverage/**'
-  ]
+  ],
+  testEnvironment: 'node'
 }
