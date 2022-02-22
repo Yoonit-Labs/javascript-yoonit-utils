@@ -74,15 +74,15 @@ const replaceDoubleQuotes = elm =>
 const replaceHeaders = args =>
   JSON
     .stringify(args)
-    .replaceAll(/^[[]|[\]]$/g, '')
-    .replaceAll(/(\r\n)|(\n)|(\r)|(\s\s)/g, '')
-    .replaceAll(/\\/g, '')
+    .replace(/^[[]|[\]]$/g, '')
+    .replace(/(\r\n)|(\n)|(\r)|(\s\s)/g, '')
+    .replace(/\\/g, '')
 
 const argsParser = args =>
   replaceHeaders(args)
-    .replaceAll(/^[{]|[}]$/g, '')
-    .replaceAll(/"{(.*)}"/g, replaceDoubleQuotes)
-    .replaceAll(/"([A-z])\w+"(:| :)/g, replaceDoubleQuotes)
+    .replace(/^[{]|[}]$/g, '')
+    .replace(/"{(.*)}"/g, replaceDoubleQuotes)
+    .replace(/"([A-z])\w+"(:| :)/g, replaceDoubleQuotes)
 
 const fieldsParser = fields => {
   fields = fields
@@ -90,7 +90,7 @@ const fieldsParser = fields => {
       if (elm.constructor === Object) {
         return JSON
           .stringify(elm)
-          .replaceAll(/^[{]|[}]$/g, '')
+          .replace(/^[{]|[}]$/g, '')
       }
       return elm
     })
@@ -100,9 +100,9 @@ const fieldsParser = fields => {
     ))
 
   return replaceHeaders(fields)
-    .replaceAll(/[:|"]/g, '')
-    .replaceAll(/\[/g, '{')
-    .replaceAll(/]/g, '}')
+    .replace(/[:|"]/g, '')
+    .replace(/\[/g, '{')
+    .replace(/]/g, '}')
 }
 
 const graphql = {
@@ -111,3 +111,35 @@ const graphql = {
 }
 
 export default graphql
+
+// const mutation = graphql
+//   .mutation(
+//     'mutationName'
+//   )({
+//     where: {
+//       desired_depart_stime: {
+//         _gt: '2022-03-18'
+//       }
+//     },
+//     order_by: '{desired_depart_stime: asc}',
+//     test: [
+//       123,
+//       456,
+//       789,
+//       'value',
+//       {
+//         key: {
+//           value: 123
+//         }
+//       }
+//     ]
+//   })(
+//     'status',
+//     'message',
+//     'id',
+//     'names',
+//     123,
+//     'users'
+//   )
+//
+// console.log(mutation)

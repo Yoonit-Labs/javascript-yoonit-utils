@@ -1,6 +1,6 @@
 {
   "name": "@yoonit/utils",
-  "version": "1.2.0",
+  "version": "1.2.2",
   "description": "Couple of functions in JS to speed up development and give some help",
   "main": "yoo-utils.bundle.js",
   "repository": {
